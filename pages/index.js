@@ -21,7 +21,15 @@ const center = {
 };
 
 async function fetchSightingsRequest() {
-    return []
+    const response = await fetch("/api/sightings")
+    const {sightings} = await response.json()
+
+    return sightings.map((sighting) => ({
+        id: sighting._id,
+        longitude: sighting.location.coordinates[0],
+        latitude: sighting.location.coordinates[1],
+        createdAt: sighting.createdAt
+    }))
 }
 
 async function createSightingRequest(sightingData) {
